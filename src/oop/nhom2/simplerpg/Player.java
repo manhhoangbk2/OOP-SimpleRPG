@@ -46,7 +46,8 @@ public class Player extends Character {
 	}
 
 	@Override
-	public void attack() {
+	public int attack() {
+		return 0;
 		// TODO Auto-generated method stub
 		
 	}
