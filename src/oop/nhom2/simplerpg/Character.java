@@ -13,7 +13,6 @@ public abstract class Character {
 	private static final int MAX_HP=100; //100%
 	private static final int MAX_MP=100;//100%
 	
-	
 	public abstract Point move(int direction);
 	
 	public abstract void attack();

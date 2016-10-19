@@ -12,7 +12,6 @@ public class MapPanel extends JPanel {
 		cells = new JLabel[rows][cols];
 		
 		setLayout(new GridLayout(rows, cols, 0, 0));
-		
 		for(int i=0;i<rows;i++){
 			for(int j=0;j<cols;j++){
 				cells[i][j] = new JLabel();

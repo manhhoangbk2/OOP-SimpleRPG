@@ -15,7 +15,7 @@ public class NPC extends Character {
 	}
 	
 	public boolean getHostile(){
-		returm this.hostile;
+		return this.hostile;
 	}
 	public void setDialog(String[] dialog){
 		this.dialog = dialog.clone();
@@ -23,8 +23,7 @@ public class NPC extends Character {
 	
 	public String[] getDialog(){
 		return dialog;
-
-	
+	}
 
 	@Override
 	public void attack() {
