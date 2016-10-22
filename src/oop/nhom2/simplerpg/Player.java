@@ -8,6 +8,10 @@ public class Player extends Character {
 	private int xp_limit;
 	private int gold;
 
+	Player(Long id, int maxHp, int maxMp, Point pos){
+		super(id, maxHp, maxMp, pos);
+	}
+	
 	public int getLevel() {
 		return level;
 	}

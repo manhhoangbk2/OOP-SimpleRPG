@@ -9,18 +9,16 @@ public abstract class Character {
 	private int mp;
 	private int damage;
 	private int[] stats;
+	private Point pos;
 
 	private int maxHp;
 	private int maxMp;
 
-	public Character() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public Character(Long id, int maxHp, int maxMp) {
+	public Character(Long id, int maxHp, int maxMp, Point pos) {
 		this.id = id;
-		this.maxHp = maxHp;
-		this.maxMp = maxMp;
+		this.maxHp = hp = maxHp;
+		this.maxMp = mp = maxMp;
+		this.pos = pos;
 	}
 
 	public abstract Point move(int direction);
@@ -91,4 +89,12 @@ public abstract class Character {
 		this.maxMp = maxMp;
 	}
 
+	public Point getPos() {
+		return pos;
+	}
+
+	public void setPos(Point pos) {
+		this.pos = pos;
+	}
+	
 }

@@ -3,7 +3,7 @@ package oop.nhom2.simplerpg;
 import java.util.Vector;
 
 public class AreaMap {
-	private int rows, cols;
+	private int rows = 22, cols = 40;
 	private String [][] layout;
 	private String name;
 	Vector<NPC> npc;

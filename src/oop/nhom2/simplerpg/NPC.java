@@ -6,8 +6,9 @@ public class NPC extends Character {
 	private boolean hostile;
 	private String[] dialog;
 	
-	NPC(){
-		super();
+	NPC(Long id, int maxHp, int maxMp, Point pos){
+		super(id,maxHp,maxMp,pos);
+		hostile = false;
 	}
 	
 	public void setHostile(boolean hostile){
