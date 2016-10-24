@@ -12,13 +12,17 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Vector;
+
 import javax.swing.JLabel;
 import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.Point;
+
 import javax.swing.JButton;
 import java.io.*;
 
@@ -26,7 +30,7 @@ import java.io.*;
 public class Main extends JFrame {
 	
 	private JPanel contentPane;
-	static List<AreaMap> maps;
+	private static final String DEFAULT_MAP = "PL";
 	/**
 	 * Launch the application.
 	 */
@@ -58,13 +62,10 @@ public class Main extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(new CardLayout(0, 0));
 		
-		getGameContent();
-		
-		BackgroundPanel main_menu = new BackgroundPanel(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/images/menu_img.png")),BackgroundPanel.ACTUAL);
+		BackgroundPanel main_menu = new BackgroundPanel(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/images/menu_img_3.png")),BackgroundPanel.ACTUAL);
 		main_menu.setImageAlignmentY(0.0f);
 		main_menu.setImageAlignmentX(0.0f);
-		main_menu.setImage(Toolkit.getDefaultToolkit().getImage(Main.class.getResource("/images/menu_img.png")));
-		contentPane.add(main_menu, "name_14155683990644");
+		contentPane.add(main_menu, "main_menu");
 		FormLayout fl_main_menu = new FormLayout(new ColumnSpec[] {
 				ColumnSpec.decode("400px"),
 				ColumnSpec.decode("400px:grow"),
@@ -80,7 +81,7 @@ public class Main extends JFrame {
 		main_menu.setLayout(fl_main_menu);
 		
 		JLabel lblASimpleRpg = new JLabel("A SIMPLE RPG");
-		lblASimpleRpg.setFont(new Font("Lucida Handwriting", Font.BOLD, 53));
+		lblASimpleRpg.setFont(new Font("Tempus Sans ITC", Font.BOLD, 62));
 		lblASimpleRpg.setForeground(Color.WHITE);
 		lblASimpleRpg.setHorizontalAlignment(SwingConstants.CENTER);
 		main_menu.add(lblASimpleRpg, "2, 2");
@@ -90,7 +91,7 @@ public class Main extends JFrame {
 		NewGame.setFocusable(false);
 		NewGame.setContentAreaFilled(false);
 		NewGame.setForeground(Color.WHITE);
-		NewGame.setFont(new Font("Lucida Handwriting", Font.PLAIN, 42));
+		NewGame.setFont(new Font("Tempus Sans ITC", Font.PLAIN, 55));
 		NewGame.setBorder(null);
 		NewGame.setOpaque(false);
 		main_menu.add(NewGame, "2, 3");
@@ -98,6 +99,7 @@ public class Main extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
+				startNewGame();
 			}
 		});
 		
@@ -105,7 +107,7 @@ public class Main extends JFrame {
 		LoadGame.setContentAreaFilled(false);
 		LoadGame.setBorderPainted(false);
 		LoadGame.setForeground(Color.WHITE);
-		LoadGame.setFont(new Font("Lucida Handwriting", Font.PLAIN, 42));
+		LoadGame.setFont(new Font("Tempus Sans ITC", Font.PLAIN, 55));
 		LoadGame.setFocusable(false);
 		LoadGame.setFocusPainted(false);
 		main_menu.add(LoadGame, "2, 4");
@@ -118,7 +120,7 @@ public class Main extends JFrame {
 		
 		JButton Options = new JButton("Options");
 		Options.setForeground(Color.WHITE);
-		Options.setFont(new Font("Lucida Handwriting", Font.PLAIN, 42));
+		Options.setFont(new Font("Tempus Sans ITC", Font.PLAIN, 55));
 		Options.setFocusable(false);
 		Options.setFocusPainted(false);
 		Options.setContentAreaFilled(false);
@@ -135,12 +137,12 @@ public class Main extends JFrame {
 		Credits.setHorizontalTextPosition(SwingConstants.LEFT);
 		Credits.setVerticalTextPosition(SwingConstants.BOTTOM);
 		Credits.setForeground(Color.WHITE);
-		Credits.setFont(new Font("Lucida Handwriting", Font.PLAIN, 24));
+		Credits.setFont(new Font("Tempus Sans ITC", Font.PLAIN, 30));
 		Credits.setFocusable(false);
 		Credits.setFocusPainted(false);
 		Credits.setContentAreaFilled(false);
 		Credits.setBorderPainted(false);
-		main_menu.add(Credits, "1, 6");
+		main_menu.add(Credits, "3, 6");
 		Credits.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -151,32 +153,64 @@ public class Main extends JFrame {
 	}
 	
 	/**
-	 * Load maps
+	 * Load maps for New Game
 	 */
-	private void getGameContent(){
-		maps = new ArrayList<AreaMap>(10);
-		loadMaps();
+	private void startNewGame(){
+		Map<String,AreaMap> maps = loadNewMaps();
+		Game.main(maps, DEFAULT_MAP, new Point(14,12));
+		dispose();
 	}
 	
-	protected void loadMaps(){
+	private Map<String,AreaMap> loadNewMaps(){
+		Map<String,AreaMap> maps = new HashMap<String,AreaMap>(10);
 		File dir = new File("res/maps");
 		File [] map_list = dir.listFiles();
+		// Iterate through every map file
 		for(File f : map_list){
-			String [][] layout = new String [22][40];
+			if(!(f.getName().contains(".map"))) continue;
+			String [][] layout = new String [AreaMap.MAP_ROWS][AreaMap.MAP_COLS];
 			String name = new String();
+			Vector<NPC> npc = new Vector<NPC>(50);
 			try{
 				BufferedReader inp = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
+				// Get map name and layout
 				name = inp.readLine();
 				for(int i=0;i<22;i++){
 					String line = inp.readLine();
-					layout[i] = line.split("\t",40);
+					layout[i] = line.split("\t",AreaMap.MAP_COLS);
 				}
+				// Get NPC list
+				String line = inp.readLine();
+				while(line!=null){
+					String [] c = new String[3];
+					c = line.split("\t", 3);
+					Point pos = new Point(Integer.parseInt(c[1]),Integer.parseInt(c[2]));
+					NPC np = null;
+					switch(c[0]){
+						case "warrior":
+							np = new NPC(new Long(1),200,20,pos);
+							break;
+						case "archer":
+							np = new NPC(new Long(2),100,50,pos);
+							break;
+						case "wizard":
+							np = new NPC(new Long(3),50,200,pos);
+							break;
+					}
+					
+					if(np!=null) npc.add(np);					
+					line = inp.readLine();
+				}
+				maps.put(name, new AreaMap(name,layout,npc));
 				inp.close();
 			}catch(IOException e){
 				e.printStackTrace();
 				continue;
+			}catch(NullPointerException e){
+				e.printStackTrace();
+				continue;
 			}
-			
 		}
+		return maps;
 	}
 }

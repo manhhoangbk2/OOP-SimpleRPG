@@ -7,10 +7,15 @@ import java.awt.GridLayout;
 
 @SuppressWarnings("serial")
 public class MapPanel extends JPanel {
+	/**
+	 * Terrain map:
+	 * 0 = unused/unreachable
+	 * 1 = grass
+	 * 2 = dirt
+	 * 3 = water*/
 	private JLabel [][] cells;
 	public MapPanel(String [][] layout, int rows, int cols, Vector<NPC> npc) {
 		cells = new JLabel[rows][cols];
-		
 		setLayout(new GridLayout(rows, cols, 0, 0));
 		for(int i=0;i<rows;i++){
 			for(int j=0;j<cols;j++){
@@ -18,7 +23,7 @@ public class MapPanel extends JPanel {
 				Color cell_color;
 				switch(layout[i][j]){
 					case "0":
-						cell_color = Color.DARK_GRAY;
+						cell_color = Color.BLACK;
 						break;
 					case "1":
 						cell_color = new Color(51,255,51);
@@ -27,7 +32,7 @@ public class MapPanel extends JPanel {
 						cell_color = new Color(51,25,0);
 						break;
 					case "3":
-						cell_color = new Color(153,204,255);
+						cell_color = new Color(24,28,135);
 						break;
 					default:
 						cell_color = new Color(255,255,102);
