@@ -2,6 +2,8 @@ package oop.nhom2.simplerpg;
 
 import java.awt.Point;
 
+import javax.swing.ImageIcon;
+
 public abstract class Character {
 	private Long id;
 	private String name;
@@ -10,7 +12,7 @@ public abstract class Character {
 	private int damage;
 	private int[] stats;
 	private Point pos;
-
+	private ImageIcon imageIcon;
 	private int maxHp;
 	private int maxMp;
 
@@ -95,6 +97,14 @@ public abstract class Character {
 
 	public void setPos(Point pos) {
 		this.pos = pos;
+	}
+	
+	public ImageIcon getImageIcon() {
+		return imageIcon;
+	}
+	
+	public void setImageIcon(ImageIcon imageIcon) {
+		this.imageIcon = imageIcon;
 	}
 	
 }
