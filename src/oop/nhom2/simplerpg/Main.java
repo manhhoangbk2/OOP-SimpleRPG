@@ -157,7 +157,7 @@ public class Main extends JFrame {
 	 */
 	private void startNewGame(){
 		Map<String,AreaMap> maps = loadNewMaps();
-		Game.main(maps, DEFAULT_MAP, new Point(14,12));
+		Game.main(maps, DEFAULT_MAP, null);
 		dispose();
 	}
 	

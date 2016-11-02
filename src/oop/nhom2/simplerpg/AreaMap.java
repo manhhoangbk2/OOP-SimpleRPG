@@ -35,14 +35,14 @@ public class AreaMap {
 		return mp;
 	}
 	
-	public NPC getNPCAt(int index){
+	public NPC getNpcAt(int index){
 		try{
 			return this.npc.get(index);
 		}catch(ArrayIndexOutOfBoundsException e){
 			return null;
 		}
 	}
-	public void addNPC(NPC npc){
+	public void addNpc(NPC npc){
 		this.npc.add(npc);
 	}
 	public Vector<NPC> getNpc() {
