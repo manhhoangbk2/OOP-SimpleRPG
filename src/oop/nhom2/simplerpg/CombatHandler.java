@@ -1,73 +1,60 @@
 package oop.nhom2.simplerpg;
 
 public class CombatHandler {
+	public static final boolean VICTORY = true;
+	public static final boolean DEFEAT = false;
+	
+	private Player p1;
+    private NPC p2;
+    private int turn = 0;
+    private boolean result;
 
-    NPC character2;
-    Player character1;
-    int turn = 0;
-
-    public CombatHandler(NPC character2, Player character1) {
-        this.character2 = character2;
-        this.character1 = character1;
+    public CombatHandler(NPC p2, Player p1) {
+        this.p2 = p2;
+        this.p1 = p1;
     }
 
-    public CombatHandler() {
+    public Character getP1() {
+        return p1;
     }
 
-    public Character getCharacter1() {
-        return character1;
+    public Character getP2() {
+        return p2;
     }
 
-    public Character getCharacter2() {
-        return character2;
+    public void p1Turn() {
+        
     }
 
-    public void setCharacter2(NPC character2) {
-        this.character2 = character2;
+    public void p2Turn() {
+        
     }
 
-    public void playerTurn() {
-        turn = 1;
-    }
-
-    public void NPCTurn() {
-        turn = 0;
-    }
-
-    public boolean checkVaCham() {
-        //ham va cham
-        return true;
-    }
-
-    public void comBat() {
-        while (character1.getHp() > 0 && character2.getHp() > 0) {
-            if (checkVaCham() == true) {
-                if (turn == 0) {
-                    character1.attack();
-                    character2.setHp(character2.getHp() - character1.getDamage());
-                    playerTurn();
-                } else if (turn == 1) {
-                    character2.attack();
-                    character1.setHp(character1.getHp() - character2.getDamage());
-                    NPCTurn();
-                }
-            }
-
+    public boolean combat() {
+        while(!combatEnd()){
+        	if(turn % 2 == 0) p1Turn();
+        	else p2Turn();
+        	turn++;
         }
+        endCombat();
+        
+        return result;
     }
 
-    public void endPlayerCombat() {
-        if (character2.getHp() == 0) {
-            character1.setLevel(character1.getLevel() + 1);
-            // Ham huy quai vat
-            // exp tang
-            System.out.println(" you WIN");
-        }
+    public boolean combatEnd(){
+    	if(p1.getHp()==0 || p2.getHp()==0 )
+    		return true;
+    	return false;
     }
-
-    public void endNPCCombat() {
-        if (character1.getHp() == 0) {
-            System.out.println("Ban thua sap mat rooi");
-        }
+    
+    public void endCombat() {
+    	//TODO Add ending code
+    	if(p1.getHp()==0){
+    		
+    		result = DEFEAT;
+    	}else if(p2.getHp()==0){
+    		
+    		result = VICTORY;
+    	}
     }
 }

@@ -28,22 +28,22 @@ public class MapPanel extends JPanel {
 				Image cell_bg = null;
 				switch(layout[i][j]){
 					case "0":
-						cell_bg = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/images/no_tile.png"));
+						cell_bg = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/images/tiles/no_tile.png"));
 						break;
 					case "1":
-						cell_bg = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/images/grass_tile.png"));
+						cell_bg = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/images/tiles/grass_tile.png"));
 						break;
 					case "1.0":
-						cell_bg = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/images/grass_tree_tile.png"));
+						cell_bg = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/images/tiles/grass_tree_tile.png"));
 						break;
 					case "2":
-						cell_bg = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/images/dirt_tile.png"));
+						cell_bg = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/images/tiles/dirt_tile.png"));
 						break;
 					case "3":
-						cell_bg = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/images/water_tile.png"));
+						cell_bg = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/images/tiles/water_tile.png"));
 						break;
 					default:
-						cell_bg = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/images/transition_tile.png"));
+						cell_bg = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("/images/tiles/transition_tile.png"));
 						break;
 				}
 				
@@ -53,8 +53,9 @@ public class MapPanel extends JPanel {
 			}
 		}
 		
-		for(int i=0;i<npc.size();i++){
+		for(NPC n : npc){
 			//TODO Add NPC display
+			cells[n.getPos().x][n.getPos().y].add(n.getLabel());
 		}
 	}
 }

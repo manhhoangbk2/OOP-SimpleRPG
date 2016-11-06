@@ -165,12 +165,12 @@ public class Main extends JFrame {
 		Map<String,AreaMap> maps = new HashMap<String,AreaMap>(10);
 		File dir = new File("res/maps");
 		File [] map_list = dir.listFiles();
+		NPCFactory factory = new NPCFactory();
 		// Iterate through every map file
 		for(File f : map_list){
 			if(!(f.getName().contains(".map"))) continue;
 			String [][] layout = new String [AreaMap.MAP_ROWS][AreaMap.MAP_COLS];
 			String name = new String();
-			Vector<NPC> npc = new Vector<NPC>(50);
 			try{
 				BufferedReader inp = new BufferedReader(new InputStreamReader(new FileInputStream(f)));
 				// Get map name and layout
@@ -179,28 +179,8 @@ public class Main extends JFrame {
 					String line = inp.readLine();
 					layout[i] = line.split("\t",AreaMap.MAP_COLS);
 				}
-				// Get NPC list
-				String line = inp.readLine();
-				while(line!=null){
-					String [] c = new String[3];
-					c = line.split("\t", 3);
-					Point pos = new Point(Integer.parseInt(c[1]),Integer.parseInt(c[2]));
-					NPC np = null;
-					switch(c[0]){
-						case "warrior":
-							np = new NPC(new Long(1),200,20,pos);
-							break;
-						case "archer":
-							np = new NPC(new Long(2),100,50,pos);
-							break;
-						case "wizard":
-							np = new NPC(new Long(3),50,200,pos);
-							break;
-					}
-					
-					if(np!=null) npc.add(np);					
-					line = inp.readLine();
-				}
+				
+				Vector<NPC> npc = factory.getNPC(name);
 				maps.put(name, new AreaMap(name,layout,npc));
 				inp.close();
 			}catch(IOException e){

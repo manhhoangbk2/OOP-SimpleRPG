@@ -15,15 +15,19 @@ public class Player extends Character {
 	public int getLevel() {
 		return level;
 	}
-	public void setLevel(int level) {
-		this.level = level;
-	}
 
 	public int getXp() {
 		return xp;
 	}
-	public void setXp(int xp) {
-		this.xp = xp;
+	public void setXP(int xp) {
+		if (xp < xp_limit) {
+			this.xp = xp;
+			return;
+		} else {
+			this.xp = xp - xp_limit;
+			xp_limit = (int)Math.ceil((double)xp_limit*1.1);
+			level++;
+		}
 	}
 
 	public int getGold() {
@@ -33,15 +37,6 @@ public class Player extends Character {
 		this.gold = gold;
 	}
 
-	void setXP(int xp) {
-		if (xp < xp_limit) {
-			this.xp = xp;
-			return;
-		} else {
-			this.xp = xp - xp_limit;
-			level++;
-		}
-	}
 
 	@Override
 	public Point move(int direction) {
@@ -50,7 +45,7 @@ public class Player extends Character {
 	}
 
 	@Override
-	public int attack() {
+	public double attack(Character ch) {
 		return 0;
 		// TODO Auto-generated method stub
 		

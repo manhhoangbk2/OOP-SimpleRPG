@@ -5,38 +5,44 @@ import java.util.Vector;
 
 public class NPC extends Character {
 	private boolean hostile;
-	private Vector<string> dialog;
+	private Vector<String> dialog;
+	private int xp_value = 1;
 	
 	public NPC(Long id, int maxHp, int maxMp, Point pos){
 		super(id,maxHp,maxMp,pos);
-		hostile = false;
+		hostile = true;
 	}
-	public NPC(long id, int maxHp, int maxMp, Point pos, Vector<string> dialog){
+	public NPC(long id, int maxHp, int maxMp, Point pos, Vector<String> dialog){
 		super(id,maxHp,maxMp,pos);
-		this.hostile = true;
+		this.hostile = false;
 		this.dialog = dialog;
 	}
 	
 	public void setHostile(boolean hostile){
 		this.hostile = hostile;
 	}
-	
 	public boolean getHostile(){
 		return this.hostile;
 	}
-	public void setDialog(Vector<string> dialog){
-		this.dialog = dialog.clone();
-	}
 	
-	public Vector<string> getDialog(){
+	public void setDialog(Vector<String> dialog){
+		this.dialog = dialog;
+	}
+	public Vector<String> getDialog(){
 		return dialog;
 	}
 
+	public int getXp_value() {
+		return xp_value;
+	}
+	public void setXp_value(int xp_value) {
+		this.xp_value = xp_value;
+	}
+	
 	@Override
-	public int attack() {
-		return 0;
+	public double attack(Character ch) {
 		// TODO Auto-generated method stub
-		
+		return 0;
 	}
 
 	@Override
