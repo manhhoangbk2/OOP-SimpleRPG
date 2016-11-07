@@ -21,7 +21,7 @@ public class Game extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(Map<String,AreaMap> maps, String current, Player player) {
+	public static void main(final Map<String,AreaMap> maps, final String current, final Player player) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
